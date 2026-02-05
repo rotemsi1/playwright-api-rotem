@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "returnCode": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "success",
+    "reason",
+    "returnCode"
+  ]
+}
