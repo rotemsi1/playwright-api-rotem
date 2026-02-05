@@ -1,17 +1,18 @@
 import contactUsEmailPayload from "../request-objects/POST_support_contact_us_email.json"
 import { faker } from "@faker-js/faker"
 
-const categoryToProductMapping: Record<number, number> = {
-  1: 11,  // Category 1 has product IDs 1–11
-  2: 7,   // Category 2 has product IDs 1–7
-  3: 3,   // Category 3 has product IDs 1-3
-  4: 7,   // Category 4 has product IDs 1-7
-  5: 9    // Category 5 has product IDs 1-9
+// Map the Category IDs to the number of products and their names
+const categoryToProductMapping: Record<number, { numberOfProducts: number; name: string }> = {
+  1: { numberOfProducts: 11, name: "Laptops" },  // Category 1: Electronics, product IDs 1–11
+  2: { numberOfProducts: 7, name: "Headphones" },         // Category 2: Books, product IDs 1–7
+  3: { numberOfProducts: 3, name: "Tablets" },      // Category 3: Clothing, product IDs 1–3
+  4: { numberOfProducts: 7, name: "Speakers" },          // Category 4: Home, product IDs 1–7
+  5: { numberOfProducts: 9, name: "Mice" }           // Category 5: Toys, product IDs 1–9
 }
 
 export function getRandomContactUsEmail() {
     const contactUsEmailRequest = structuredClone(contactUsEmailPayload)
-    const { categoryId, productId } = getRandomCategoryAndProductIds(categoryToProductMapping)
+    const { categoryId, productId } = getRandomCategoryAndProductIds()
     contactUsEmailRequest.categoryId = categoryId
     contactUsEmailRequest.email = faker.internet.email()
     contactUsEmailRequest.productId = productId
@@ -19,10 +20,16 @@ export function getRandomContactUsEmail() {
     return contactUsEmailRequest
 }
 
-function getRandomCategoryAndProductIds(mapping: Record<number, number>): { categoryId: number; productId: number } {
-  const categoryIdsArray = Object.keys(mapping).map(Number)
+export function getRandomCategoryAndProductIds(): { categoryId: number; productId: number, categoryName: string } {
+  // Map the object's keys into a Numbers array
+  const categoryIdsArray = Object.keys(categoryToProductMapping).map(Number)
+  // Draw a random Category ID from the Numbers array
   const categoryId = categoryIdsArray[Math.floor(Math.random() * categoryIdsArray.length)]
-  const maxProductId = mapping[categoryId]
-  const productId = Math.floor(Math.random() * maxProductId) + 1
-  return { categoryId, productId }
+  // Retrieve the matching Object corresponding to the random Category ID
+  const categoryObject = categoryToProductMapping[categoryId]
+  // Draw a random Product ID from the Object's "numberOfProducts" number
+  const productId = Math.floor(Math.random() * categoryObject.numberOfProducts) + 1
+  const categoryName = categoryObject.name
+  // Return the Category ID and the Product ID
+  return { categoryId, productId, categoryName }
 }

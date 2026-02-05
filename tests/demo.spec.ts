@@ -1,11 +1,14 @@
 import { expect } from '../utils/custom-expect'
-import { getRandomContactUsEmail } from '../utils/data-generator'
+import { getRandomContactUsEmail, getRandomCategoryAndProductIds } from '../utils/data-generator'
 import { test } from '../utils/fixtures'
 
 test("GET products", async ({ requestHandler }) => {
-  const categoryId = 4
+  const { categoryId, categoryName } = getRandomCategoryAndProductIds()
   const response = await requestHandler.path(`/catalog/api/v1/categories/${categoryId}/products`).getRequest(200)
+  console.log(response)
   expect(response.categoryId).toEqual(categoryId)
+  expect(response.categoryName).toEqual(categoryName.toUpperCase())
+  expect(response.categoryImageId).toEqual(categoryName.toLowerCase())
 })
 
 test("POST contact us", async ({ requestHandler }) => {
