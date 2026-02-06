@@ -5,13 +5,13 @@ import { test } from '../utils/fixtures'
 test("GET products", async ({ requestHandler }) => {
   const { categoryId, categoryName } = getRandomCategoryAndProductIds()
   const response = await requestHandler.path(`/catalog/api/v1/categories/${categoryId}/products`).getRequest(200)
-  console.log(response)
+  await expect(response).isMatchingSchema("GET_products_schema.json")
   expect(response.categoryId).toEqual(categoryId)
   expect(response.categoryName).toEqual(categoryName.toUpperCase())
   expect(response.categoryImageId).toEqual(categoryName.toLowerCase())
   // Assert that all products in the "products" list have the correct category ID
   response.products.forEach((product: { categoryId: number }) => {
-    expect(product.categoryId).toEqual(categoryId);
+    expect(product.categoryId).toEqual(categoryId)
   })
 })
 
