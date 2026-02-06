@@ -1,0 +1,84 @@
+{
+  "type": "object",
+  "properties": {
+    "productId": {
+      "type": "number"
+    },
+    "categoryId": {
+      "type": "number"
+    },
+    "productName": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "description": {
+      "type": "string"
+    },
+    "imageUrl": {
+      "type": "string"
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "attributeName": {
+            "type": "string"
+          },
+          "attributeValue": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "attributeName",
+          "attributeValue"
+        ]
+      }
+    },
+    "colors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "inStock": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "inStock"
+        ]
+      }
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "productStatus": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "productId",
+    "categoryId",
+    "productName",
+    "price",
+    "description",
+    "imageUrl",
+    "attributes",
+    "colors",
+    "images",
+    "productStatus"
+  ]
+}
