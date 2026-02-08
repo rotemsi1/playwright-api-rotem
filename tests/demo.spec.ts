@@ -5,7 +5,6 @@ import { test } from '../utils/fixtures'
 test("GET products", async ({ requestHandler }) => {
   const { categoryId, categoryName } = getRandomCategory()
   const productsResponse = await requestHandler.path(`/catalog/api/v1/categories/${categoryId}/products`).getRequest(200)
-  console.log(productsResponse)
   await expect(productsResponse).isMatchingSchema("GET_products_schema.json")
   expect(productsResponse.categoryId).toEqual(categoryId)
   expect(productsResponse.categoryName).toEqual(categoryName.toUpperCase())
@@ -19,9 +18,14 @@ test("GET products", async ({ requestHandler }) => {
   const selectedProduct = productsResponse.products[Math.floor(Math.random() * productsResponse.products.length)]
   const singleProductResponse = await requestHandler.path(`/catalog/api/v1/products/${selectedProduct.productId}`).getRequest(200)
   await expect(singleProductResponse).isMatchingSchema("GET_single_product_schema.json")
-  // console.log(singleProductResponse)
+  // Assert all single product values against the values from the response
   expect(singleProductResponse.productId).toEqual(selectedProduct.productId)
   expect(singleProductResponse.categoryId).toEqual(selectedProduct.categoryId)
+  expect(singleProductResponse.productName).toEqual(selectedProduct.productName)
+  expect(singleProductResponse.price).toEqual(selectedProduct.price)
+  expect(singleProductResponse.description).toEqual(selectedProduct.description)
+  expect(singleProductResponse.imageUrl).toEqual(selectedProduct.imageUrl)
+  expect(singleProductResponse.productStatus).toEqual(selectedProduct.productStatus)
 })
 
 test("POST contact us", async ({ requestHandler }) => {
