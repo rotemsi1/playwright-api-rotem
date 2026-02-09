@@ -34,11 +34,14 @@ test("Purchase a product", async ({ requestHandler }) => {
 
   // Add to cart
   // Select a random product color
-  // const selectedColor = singleProductResponse.colors[Math.floor(Math.random() * singleProductResponse.colors.length)]
-  // const addToCartResponse = await requestHandler
-  //     .path(`/order/api/v1/carts/${USER_ID}/product/${selectedProduct.productId}/color/${selectedColor.code}?quantity=1`)
-  //     .body({ sessionId: "E6887777F5120F5B588D6C03AFDBF95F"})
-  //     .postRequest(201)
+  const selectedColor = singleProductResponse.colors[Math.floor(Math.random() * singleProductResponse.colors.length)]
+  const addToCartResponse = await requestHandler
+      .path(`/order/api/v1/carts/${USER_ID}/product/${selectedProduct.productId}/color/${selectedColor.code}?quantity=1`)
+      .headers({Authorization: "Basic cm90ZW1zaW46VXNlcjEyMzQh"})
+      .postRequest(201)
+
+  // 19c42b06367@7EA29D3815^i%396604504
+
 
 })
 

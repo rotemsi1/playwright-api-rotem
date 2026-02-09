@@ -5,6 +5,7 @@ export class RequestHandler {
     private apiRequestContext: APIRequestContext
     private baseUrl: string | undefined
     private apiPath: string = ""
+    private apiHeaders: Record<string, string> = {}
     private apiBody: object = {}
 
     constructor(apiRequestContext: APIRequestContext, baseUrl: string) {
@@ -22,6 +23,11 @@ export class RequestHandler {
         return this
     }
 
+    headers(headers: Record<string, string>) {
+        this.apiHeaders = headers
+        return this
+    }
+
     body(body: object) {
         this.apiBody = body
         return this
@@ -33,7 +39,7 @@ export class RequestHandler {
         await test.step(`GET request to: ${url}`, async() => {
             //this.logger.logRequest("GET", url, this.getHeaders())
             const response = await this.apiRequestContext.get(url, {
-                //headers: this.getHeaders()
+                headers: this.apiHeaders
             })
             //this.cleanupFields()
             const actualStatus = response.status()
@@ -49,7 +55,7 @@ export class RequestHandler {
         const url = this.getUrl()
         await test.step(`POST request to: ${url}`, async() => {
             const response = await this.apiRequestContext.post(url, {
-                // headers: this.getHeaders(),
+                headers: this.apiHeaders,
                 data: this.apiBody
             })
             // this.cleanupFields()
