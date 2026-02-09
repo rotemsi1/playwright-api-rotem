@@ -3,10 +3,12 @@ import { getRandomContactUsEmail, getRandomCategoryAndProductIds as getRandomCat
 import { test } from '../utils/fixtures'
 
 const USER_ID = "396604504"
+const BASIC_AUTHORIZATION = "Basic cm90ZW1zaW46VXNlcjEyMzQh"
 
 test("Purchase a product", async ({ requestHandler }) => {
 
-  // Select a random category
+  // SELECT A RANDOM CATEGORY
+
   const { categoryId, categoryName } = getRandomCategory()
   const productsResponse = await requestHandler.path(`/catalog/api/v1/categories/${categoryId}/products`).getRequest(200)
   await expect(productsResponse).isMatchingSchema("GET_products_schema.json")
@@ -18,11 +20,11 @@ test("Purchase a product", async ({ requestHandler }) => {
     expect(product.categoryId).toEqual(categoryId)
   })
 
-  // Select a random product from the category
+  // SELECT A RANDOM PRODUCT FROM THE CATEGORY
+
   const selectedProduct = productsResponse.products[Math.floor(Math.random() * productsResponse.products.length)]
   const singleProductResponse = await requestHandler.path(`/catalog/api/v1/products/${selectedProduct.productId}`).getRequest(200)
   await expect(singleProductResponse).isMatchingSchema("GET_single_product_schema.json")
-  console.log(singleProductResponse)
   // Assert all single product values against the values from the response
   expect(singleProductResponse.productId).toEqual(selectedProduct.productId)
   expect(singleProductResponse.categoryId).toEqual(selectedProduct.categoryId)
@@ -32,17 +34,22 @@ test("Purchase a product", async ({ requestHandler }) => {
   expect(singleProductResponse.imageUrl).toEqual(selectedProduct.imageUrl)
   expect(singleProductResponse.productStatus).toEqual(selectedProduct.productStatus)
 
-  // Add to cart
+  // ADD SELECTED PRODUCT TO THE CART
+
   // Select a random product color
   const selectedColor = singleProductResponse.colors[Math.floor(Math.random() * singleProductResponse.colors.length)]
   const addToCartResponse = await requestHandler
       .path(`/order/api/v1/carts/${USER_ID}/product/${selectedProduct.productId}/color/${selectedColor.code}?quantity=1`)
-      .headers({Authorization: "Basic cm90ZW1zaW46VXNlcjEyMzQh"})
+      .headers({Authorization: BASIC_AUTHORIZATION})
       .postRequest(201)
-
-  // 19c42b06367@7EA29D3815^i%396604504
-
-
+  await expect(addToCartResponse).isMatchingSchema("POST_add_to_cart_schema.json")
+  console.log(addToCartResponse)
+  expect(addToCartResponse.userId).toEqual(Number(USER_ID))
+  // In the response's "productsInCart" list, find the product which was added to the cart
+  const productInCart = addToCartResponse.productsInCart.find((product: any) => product.productId === selectedProduct.productId)
+  expect(productInCart.productName).toEqual(selectedProduct.productName)
+  expect(productInCart.price).toEqual(selectedProduct.price)
+  expect(productInCart.quantity).toEqual(1)
 })
 
 test("POST contact us", async ({ requestHandler }) => {
