@@ -1,4 +1,5 @@
 import contactUsEmailPayload from "../request-objects/POST_support_contact_us_email.json"
+import shippingCostPayload from "../request-objects/POST_shipping_cost.json"
 import { faker } from "@faker-js/faker"
 
 // Map the Category IDs to the number of products and their names
@@ -32,4 +33,8 @@ export function getRandomCategoryAndProductIds(): { categoryId: number; productI
   const categoryName = categoryObject.name
   // Return the Category ID and the Product ID
   return { categoryId, productId, categoryName }
+}
+
+export function getShippingCostPayload() {
+  return structuredClone(shippingCostPayload)
 }

@@ -1,5 +1,8 @@
 import { expect } from '../utils/custom-expect'
-import { getRandomContactUsEmail, getRandomCategoryAndProductIds as getRandomCategory } from '../utils/data-generator'
+import { getRandomContactUsEmail, 
+         getRandomCategoryAndProductIds as getRandomCategory, 
+         getShippingCostPayload 
+       } from '../utils/data-generator'
 import { test } from '../utils/fixtures'
 
 const USER_ID = "396604504"
@@ -34,7 +37,7 @@ test("Purchase a product", async ({ requestHandler }) => {
   expect(singleProductResponse.imageUrl).toEqual(selectedProduct.imageUrl)
   expect(singleProductResponse.productStatus).toEqual(selectedProduct.productStatus)
 
-  // ADD SELECTED PRODUCT TO THE CART
+  // ADD THE SELECTED PRODUCT TO THE CART
 
   // Select a random product color
   const selectedColor = singleProductResponse.colors[Math.floor(Math.random() * singleProductResponse.colors.length)]
@@ -45,11 +48,16 @@ test("Purchase a product", async ({ requestHandler }) => {
   await expect(addToCartResponse).isMatchingSchema("POST_add_to_cart_schema.json")
   console.log(addToCartResponse)
   expect(addToCartResponse.userId).toEqual(Number(USER_ID))
-  // In the response's "productsInCart" list, find the product which was added to the cart
+  // In the response's "productsInCart" list, find the product which was added to the cart and assert its' properties
   const productInCart = addToCartResponse.productsInCart.find((product: any) => product.productId === selectedProduct.productId)
   expect(productInCart.productName).toEqual(selectedProduct.productName)
   expect(productInCart.price).toEqual(selectedProduct.price)
   expect(productInCart.quantity).toEqual(1)
+
+  // CHECKOUT
+  const body = getShippingCostPayload()
+  const shippingCostResponse = await requestHandler.path("/order/api/v1/shippingcost/").body(body).postRequest(200)
+
 })
 
 test("POST contact us", async ({ requestHandler }) => {
