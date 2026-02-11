@@ -1,1 +1,15 @@
-{"seaddress":{"addressLine1":"My street","addressLine2":"","city":"Tel Aviv","country":"il","postalCode":74069,"state":"Tel Aviv"},"secustomerName":"Rotem Test","secustomerPhone":"054-123456789","senumberOfProducts":2,"setransactionType":"SHIPPING_COST","sessionId":"50B1A3989FE30A1DF7735F623BF3411E"}
+{
+    "seaddress": {
+        "addressLine1": "My street",
+        "addressLine2": "",
+        "city": "Tel Aviv",
+        "country": "il",
+        "postalCode": 74069,
+        "state": "Tel Aviv"
+    },
+    "secustomerName": "Rotem Test",
+    "secustomerPhone": "054-123456789",
+    "senumberOfProducts": 2,
+    "setransactionType": "SHIPPING_COST",
+    "sessionId": "50B1A3989FE30A1DF7735F623BF3411E"
+}

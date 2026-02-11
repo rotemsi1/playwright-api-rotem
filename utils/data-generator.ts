@@ -1,5 +1,6 @@
 import contactUsEmailPayload from "../request-objects/POST_support_contact_us_email.json"
 import shippingCostPayload from "../request-objects/POST_shipping_cost.json"
+import orderPayload from "../request-objects/POST_order.json"
 import { faker } from "@faker-js/faker"
 
 // Map the Category IDs to the number of products and their names
@@ -45,4 +46,12 @@ export function getTodaysDate() {
   const month = String(today.getMonth() + 1).padStart(2, "0")
   const year = today.getFullYear()
   return `${day}${month}${year}`
+}
+
+export function getOrderPayload(productId: number, hexColor: string) {
+  const orderRequest = structuredClone(orderPayload)
+  orderRequest.orderPaymentInformation.Transaction_TransactionDate = getTodaysDate()
+  orderRequest.purchasedProducts[0].productId = productId
+  orderRequest.purchasedProducts[0].hexColor = hexColor
+  return orderRequest
 }

@@ -2,7 +2,8 @@ import { expect } from '../utils/custom-expect'
 import { getRandomContactUsEmail, 
          getRandomCategoryAndProductIds as getRandomCategory, 
          getShippingCostPayload, 
-         getTodaysDate
+         getTodaysDate,
+         getOrderPayload
        } from '../utils/data-generator'
 import { test } from '../utils/fixtures'
 
@@ -55,10 +56,23 @@ test("Purchase a product", async ({ requestHandler }) => {
   expect(productInCart.quantity).toEqual(1)
 
   // CHECKOUT
-  const body = getShippingCostPayload()
-  const shippingCostResponse = await requestHandler.path("/order/api/v1/shippingcost/").body(body).postRequest(200)
+
+  const shippingCostBody = getShippingCostPayload()
+  const shippingCostResponse = await requestHandler
+    .path("/order/api/v1/shippingcost/")
+    .body(shippingCostBody)
+    .postRequest(200)
   await expect(shippingCostResponse).isMatchingSchema("POST_shipping_cost_schema.json")
   expect(shippingCostResponse.transactionDate).toEqual(getTodaysDate())
+
+  // COMPLETE ORDER
+  const orderBody = getOrderPayload(selectedProduct.productId, selectedColor.code)
+  const orderResponse = await requestHandler
+    .path(`/order/api/v1/orders/users/${USER_ID}`)
+    .headers({Authorization: BASIC_AUTHORIZATION})
+    .body(orderBody)
+    .postRequest(200)
+
 
 
 })

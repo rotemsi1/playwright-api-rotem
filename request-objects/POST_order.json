@@ -1,0 +1,37 @@
+{
+    "orderPaymentInformation": {
+        "Transaction_AccountNumber": "112987298763",
+        "Transaction_Currency": "USD",
+        "Transaction_CustomerPhone": "054-123456789",
+        "Transaction_MasterCredit_CVVNumber": "123",
+        "Transaction_MasterCredit_CardNumber": "4886123456789900",
+        "Transaction_MasterCredit_CustomerName": "Joe Doe",
+        "Transaction_MasterCredit_ExpirationDate": "072033",
+        "Transaction_PaymentMethod": "MasterCredit",
+        "Transaction_ReferenceNumber": 0,
+        "Transaction_SafePay_Password": "",
+        "Transaction_SafePay_UserName": "",
+        "Transaction_TransactionDate": "11022026",
+        "Transaction_Type": "PAYMENT"
+    },
+    "orderShippingInformation": {
+        "Shipping_Address_Address": "My street",
+        "Shipping_Address_City": "Tel Aviv",
+        "Shipping_Address_CountryCode": 126,
+        "Shipping_Address_CustomerName": "Rotem Test",
+        "Shipping_Address_CustomerPhone": "054-123456789",
+        "Shipping_Address_PostalCode": 74069,
+        "Shipping_Address_State": "Tel Aviv",
+        "Shipping_Cost": 15.99,
+        "Shipping_NumberOfProducts": 1,
+        "Shipping_TrackingNumber": 0
+    },
+    "purchasedProducts": [
+        {
+            "hexColor": "3683D1",
+            "productId": 27,
+            "quantity": 1,
+            "hasWarranty": false
+        }
+    ]
+}
