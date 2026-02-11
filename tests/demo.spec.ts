@@ -1,7 +1,8 @@
 import { expect } from '../utils/custom-expect'
 import { getRandomContactUsEmail, 
          getRandomCategoryAndProductIds as getRandomCategory, 
-         getShippingCostPayload 
+         getShippingCostPayload, 
+         getTodaysDate
        } from '../utils/data-generator'
 import { test } from '../utils/fixtures'
 
@@ -41,7 +42,6 @@ test("Purchase a product", async ({ requestHandler }) => {
 
   // Select a random product color
   const selectedColor = singleProductResponse.colors[Math.floor(Math.random() * singleProductResponse.colors.length)]
-  console.log(selectedColor)
   const addToCartResponse = await requestHandler
       .path(`/order/api/v1/carts/${USER_ID}/product/${selectedProduct.productId}/color/${selectedColor.code}?quantity=1`)
       .headers({Authorization: BASIC_AUTHORIZATION})
@@ -57,6 +57,9 @@ test("Purchase a product", async ({ requestHandler }) => {
   // CHECKOUT
   const body = getShippingCostPayload()
   const shippingCostResponse = await requestHandler.path("/order/api/v1/shippingcost/").body(body).postRequest(200)
+  await expect(shippingCostResponse).isMatchingSchema("POST_shipping_cost_schema.json")
+  expect(shippingCostResponse.transactionDate).toEqual(getTodaysDate())
+
 
 })
 

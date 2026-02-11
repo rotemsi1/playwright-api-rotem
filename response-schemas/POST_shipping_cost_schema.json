@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "transactionDate": {
+      "type": "string"
+    },
+    "setransactionType": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "code",
+    "reason",
+    "amount",
+    "currency",
+    "transactionDate",
+    "setransactionType"
+  ]
+}
