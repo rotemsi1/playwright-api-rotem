@@ -5,8 +5,8 @@ import { getRandomContactUsEmail,
        } from '../utils/data-generator'
 import { test } from '../utils/fixtures'
 
-const USER_ID = "396604504"
-const BASIC_AUTHORIZATION = "Basic cm90ZW1zaW46VXNlcjEyMzQh"
+const USER_ID = "740281360"
+const BASIC_AUTHORIZATION = "Basic cm90ZW1zaW4xOlVzZXIxMjM0IQ"
 
 test("Purchase a product", async ({ requestHandler }) => {
 
@@ -41,12 +41,12 @@ test("Purchase a product", async ({ requestHandler }) => {
 
   // Select a random product color
   const selectedColor = singleProductResponse.colors[Math.floor(Math.random() * singleProductResponse.colors.length)]
+  console.log(selectedColor)
   const addToCartResponse = await requestHandler
       .path(`/order/api/v1/carts/${USER_ID}/product/${selectedProduct.productId}/color/${selectedColor.code}?quantity=1`)
       .headers({Authorization: BASIC_AUTHORIZATION})
       .postRequest(201)
   await expect(addToCartResponse).isMatchingSchema("POST_add_to_cart_schema.json")
-  console.log(addToCartResponse)
   expect(addToCartResponse.userId).toEqual(Number(USER_ID))
   // In the response's "productsInCart" list, find the product which was added to the cart and assert its' properties
   const productInCart = addToCartResponse.productsInCart.find((product: any) => product.productId === selectedProduct.productId)
