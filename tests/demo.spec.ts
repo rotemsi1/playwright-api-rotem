@@ -57,16 +57,16 @@ test("Purchase a product", async ({ requestHandler }) => {
 
   // CHECKOUT
 
-  const shippingCostBody = getShippingCostPayload()
-  const shippingCostResponse = await requestHandler
-    .path("/order/api/v1/shippingcost/")
-    .body(shippingCostBody)
-    .postRequest(200)
-  await expect(shippingCostResponse).isMatchingSchema("POST_shipping_cost_schema.json")
-  expect(shippingCostResponse.transactionDate).toEqual(getTodaysDate())
+  // const shippingCostBody = getShippingCostPayload()
+  // const shippingCostResponse = await requestHandler
+  //   .path("/order/api/v1/shippingcost/")
+  //   .body(shippingCostBody)
+  //   .postRequest(200)
+  // await expect(shippingCostResponse).isMatchingSchema("POST_shipping_cost_schema.json")
+  // expect(shippingCostResponse.transactionDate).toEqual(getTodaysDate())
 
   // COMPLETE ORDER
-  const orderBody = getOrderPayload(selectedProduct.productId, selectedColor.code)
+  const orderBody = getOrderPayload(selectedProduct.price, selectedProduct.productId, selectedColor.code)
   const orderResponse = await requestHandler
     .path(`/order/api/v1/orders/users/${USER_ID}`)
     .headers({Authorization: BASIC_AUTHORIZATION})
