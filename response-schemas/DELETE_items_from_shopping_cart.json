@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "number"
+    },
+    "productsInCart": {
+      "type": "array",
+      "items": {}
+    }
+  },
+  "required": [
+    "userId",
+    "productsInCart"
+  ]
+}

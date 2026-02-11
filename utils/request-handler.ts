@@ -42,10 +42,9 @@ export class RequestHandler {
                 headers: this.apiHeaders
             })
             //this.cleanupFields()
-            const actualStatus = response.status()
             responseJson = await response.json()
             //this.logger.logResponse(actualStatus, responseJson)
-            this.validateStatus(actualStatus, expectedStatus)
+            this.validateStatus(response.status(), expectedStatus)
         })
         return responseJson
     }
@@ -59,11 +58,26 @@ export class RequestHandler {
                 data: this.apiBody
             })
             // this.cleanupFields()
-            const actualStatus = response.status()
             responseJson = await response.json()
             // this.logger.logResponse(actualStatus, responseJson)
-            this.validateStatus(actualStatus, expectedStatus)
+            this.validateStatus(response.status(), expectedStatus)
             // this.logger.logRequest("POST", url, this.getHeaders(), this.apiBody)
+        })
+        return responseJson
+    }
+
+    async deleteRequest(expectedStatus: number) {
+        let responseJson: any
+        const url = this.getUrl()
+        await test.step(`DELETE request to: ${url}`, async() => {
+            // this.logger.logRequest("DELETE", url, this.getHeaders())
+            const response = await this.apiRequestContext.delete(url, {
+                headers: this.apiHeaders
+            })
+            responseJson = await response.json()
+            // this.cleanupFields()
+            // this.logger.logResponse(actualStatus)
+            this.validateStatus(response.status(), expectedStatus)
         })
         return responseJson
     }

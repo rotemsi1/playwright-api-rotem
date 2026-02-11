@@ -52,7 +52,6 @@ export function getOrderPayload(price: number, productId: number, hexColor: stri
   const orderRequest = structuredClone(orderPayload)
   orderRequest.orderPaymentInformation.Transaction_CustomerPhone = faker.phone.number({ style: "international" })
   orderRequest.orderPaymentInformation.Transaction_MasterCredit_CVVNumber = faker.finance.creditCardCVV()
-  orderRequest.orderPaymentInformation.Transaction_MasterCredit_CardNumber = faker.finance.creditCardNumber()
   orderRequest.orderPaymentInformation.Transaction_MasterCredit_CustomerName = faker.person.fullName()
   orderRequest.orderPaymentInformation.Transaction_TransactionDate = getTodaysDate()
   orderRequest.orderShippingInformation.Shipping_Cost = price

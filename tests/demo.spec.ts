@@ -66,14 +66,24 @@ test("Purchase a product", async ({ requestHandler }) => {
   // expect(shippingCostResponse.transactionDate).toEqual(getTodaysDate())
 
   // COMPLETE ORDER
+
   const orderBody = getOrderPayload(selectedProduct.price, selectedProduct.productId, selectedColor.code)
   const orderResponse = await requestHandler
     .path(`/order/api/v1/orders/users/${USER_ID}`)
     .headers({Authorization: BASIC_AUTHORIZATION})
     .body(orderBody)
     .postRequest(200)
+  await expect(orderResponse).isMatchingSchema("POST_order_schema.json")
 
+  // DELETE ITEMS FROM SHOPPING CART
 
+  const deleteItemsFromShoppingCartResponse = await requestHandler
+    .path(`/order/api/v1/carts/${USER_ID}`)
+    .headers({Authorization: BASIC_AUTHORIZATION})
+    .deleteRequest(200)
+  await expect(deleteItemsFromShoppingCartResponse).isMatchingSchema("DELETE_items_from_shopping_cart.json")
+  expect(deleteItemsFromShoppingCartResponse.userId).toEqual(Number(USER_ID))
+  expect(deleteItemsFromShoppingCartResponse.productsInCart).toHaveLength(0)
 
 })
 

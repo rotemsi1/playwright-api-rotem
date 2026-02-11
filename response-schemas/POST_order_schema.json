@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean"
+    },
+    "code": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "orderNumber": {
+      "type": "number"
+    },
+    "paymentConfirmationNumber": {
+      "type": "number"
+    },
+    "trackingNumber": {
+      "type": "number"
+    },
+    "hasWarranty": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "success",
+    "code",
+    "reason",
+    "orderNumber",
+    "paymentConfirmationNumber",
+    "trackingNumber",
+    "hasWarranty"
+  ]
+}
