@@ -55,16 +55,6 @@ test("Purchase a product", async ({ requestHandler }) => {
   expect(productInCart.price).toEqual(selectedProduct.price)
   expect(productInCart.quantity).toEqual(1)
 
-  // CHECKOUT
-
-  // const shippingCostBody = getShippingCostPayload()
-  // const shippingCostResponse = await requestHandler
-  //   .path("/order/api/v1/shippingcost/")
-  //   .body(shippingCostBody)
-  //   .postRequest(200)
-  // await expect(shippingCostResponse).isMatchingSchema("POST_shipping_cost_schema.json")
-  // expect(shippingCostResponse.transactionDate).toEqual(getTodaysDate())
-
   // COMPLETE ORDER
 
   const orderBody = getOrderPayload(selectedProduct.price, selectedProduct.productId, selectedColor.code)
