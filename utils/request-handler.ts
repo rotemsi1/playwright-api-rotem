@@ -40,13 +40,13 @@ export class RequestHandler {
         let responseJson: any
         const url = this.getUrl()
         await test.step(`GET request to: ${url}`, async() => {
-            // this.logger.logRequest("GET", url, this.apiHeaders)
+            this.logger.logRequest("GET", url, this.apiHeaders)
             const response = await this.apiRequestContext.get(url, {
                 headers: this.apiHeaders
             })
             //this.cleanupFields()
             responseJson = await response.json()
-            //this.logger.logResponse(actualStatus, responseJson)
+            this.logger.logResponse(response.status(), responseJson)
             this.validateStatus(response.status(), expectedStatus)
         })
         return responseJson
@@ -56,15 +56,15 @@ export class RequestHandler {
         let responseJson: any
         const url = this.getUrl()
         await test.step(`POST request to: ${url}`, async() => {
+            this.logger.logRequest("POST", url, this.apiHeaders, this.apiBody)
             const response = await this.apiRequestContext.post(url, {
                 headers: this.apiHeaders,
                 data: this.apiBody
             })
             // this.cleanupFields()
             responseJson = await response.json()
-            // this.logger.logResponse(actualStatus, responseJson)
+            this.logger.logResponse(response.status(), responseJson)
             this.validateStatus(response.status(), expectedStatus)
-            // this.logger.logRequest("POST", url, this.getHeaders(), this.apiBody)
         })
         return responseJson
     }
@@ -73,13 +73,13 @@ export class RequestHandler {
         let responseJson: any
         const url = this.getUrl()
         await test.step(`DELETE request to: ${url}`, async() => {
-            // this.logger.logRequest("DELETE", url, this.getHeaders())
+            this.logger.logRequest("DELETE", url, this.apiHeaders)
             const response = await this.apiRequestContext.delete(url, {
                 headers: this.apiHeaders
             })
             responseJson = await response.json()
             // this.cleanupFields()
-            // this.logger.logResponse(actualStatus)
+            this.logger.logResponse(response.status())
             this.validateStatus(response.status(), expectedStatus)
         })
         return responseJson
@@ -94,7 +94,7 @@ export class RequestHandler {
 
     private validateStatus(actualStatus: number, expectedStatus: number) {
         if (actualStatus != expectedStatus) {
-            // const logs = this.logger.getRecentLogs()
+            const logs = this.logger.getRecentLogs()
             throw new Error(`Expected status: ${expectedStatus} Actual status: ${actualStatus}`)
         }
     }
