@@ -1,8 +1,6 @@
 import { expect } from '../utils/custom-expect'
 import { getRandomContactUsEmail, 
          getRandomCategoryAndProductIds as getRandomCategory, 
-         getShippingCostPayload, 
-         getTodaysDate,
          getOrderPayload
        } from '../utils/data-generator'
 import { test } from '../utils/fixtures'

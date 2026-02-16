@@ -1,15 +1,18 @@
-import { APIRequestContext, test } from "@playwright/test";
+import { APIRequestContext, test } from "@playwright/test"
+import { Logger } from "./logger"
 
 export class RequestHandler {
 
     private apiRequestContext: APIRequestContext
+    private logger: Logger
     private baseUrl: string | undefined
     private apiPath: string = ""
     private apiHeaders: Record<string, string> = {}
     private apiBody: object = {}
 
-    constructor(apiRequestContext: APIRequestContext, baseUrl: string) {
+    constructor(apiRequestContext: APIRequestContext, logger: Logger, baseUrl: string) {
         this.apiRequestContext = apiRequestContext
+        this.logger = logger
         this.baseUrl = baseUrl
     }
 
@@ -37,7 +40,7 @@ export class RequestHandler {
         let responseJson: any
         const url = this.getUrl()
         await test.step(`GET request to: ${url}`, async() => {
-            //this.logger.logRequest("GET", url, this.getHeaders())
+            // this.logger.logRequest("GET", url, this.apiHeaders)
             const response = await this.apiRequestContext.get(url, {
                 headers: this.apiHeaders
             })
